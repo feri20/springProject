@@ -58,7 +58,7 @@ import java.util.List;
              return ResponseEntity.status(HttpStatus.CREATED).build();
 
          }
-    @Transactional
+
     @GetMapping("/gawp/{page}/{size}")
      public ResponseEntity<Page<ProductDto>> getAllWithPagination(@PathVariable int page,@PathVariable int size){
          Page<Product> productPage=productService.getAllWithPagination(page, size);
@@ -69,7 +69,7 @@ import java.util.List;
          return ResponseEntity.ok(productDtoPage);
      }
 
-    @Transactional
+
     @GetMapping("/getProductsOfCategory/{categoryId}")
     public ResponseEntity<List<ProductDto>> getWithCategory(@PathVariable Long categoryId){
          List<Product> products = productService.getWithCategory(categoryId);
@@ -119,7 +119,7 @@ import java.util.List;
         return "deleted";
 
     }
-         @Transactional
+    
          @GetMapping("/filter")
          public ResponseEntity<Page<ProductDto>>products (@RequestParam (name = "page",defaultValue = "0")int page,
           @RequestParam(name = "size",defaultValue = "500")int size,
@@ -135,7 +135,7 @@ import java.util.List;
 
          }
 
-         @Transactional
+       
          @GetMapping("/simplified")
          public ResponseEntity<Page<ProductDto>> filterProducts(
          @QuerydslPredicate(root = Product.class) Predicate predicate,
