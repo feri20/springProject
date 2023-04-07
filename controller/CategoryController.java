@@ -29,25 +29,18 @@ public class CategoryController {
 
     @PostMapping("/")
     public ResponseEntity<Void> add(@RequestBody CategoryDto categoryDto) {
-        Category category= categoryMapper.DtoToCategory(categoryDto);
         CategoryService.add(category);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping("/{page}/{size}")
-    public ResponseEntity<Page<Category>> getAllWithPagination(@PathVariable(value = "page") int page,
+    public ResponseEntity<Page<CategoryDto>> getAllWithPagination(@PathVariable(value = "page") int page,
                                                                @PathVariable(value = "size") int size){
-        Page<Category> categories =CategoryService.getAllWithPagination(page, size);
-        return ResponseEntity.ok(categories);
+        Page<CategoryDto> categoryDtoPage =CategoryService.getAllWithPagination(page, size);
+        return ResponseEntity.ok(categoryDtoPage);
     }
     @GetMapping("/")
     public ResponseEntity<List<CategoryDto>> getAll() {
-        List<Category> categories=CategoryService.getAll();
-        List<CategoryDto> categoryDtos=new ArrayList<>();
-        categories.forEach(category -> {
-            CategoryDto categoryDto  =categoryMapper.CategoryToDto(category);
-            categoryDtos.add(categoryDto);
-        });
-
+        List<CategoryDto> categories=CategoryService.getAll();
         return  ResponseEntity.ok(categoryDtos);
     }
     @ApiOperation(value = "Add or insert user")
@@ -60,14 +53,12 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getOne(@PathVariable(value = "id") Long id){
-        Category category = CategoryService.get(id);
-        CategoryDto categoryDto = categoryMapper.CategoryToDto(category);
+        CategoryDto categoryDto = CategoryService.get(id);
         return ResponseEntity.ok(categoryDto);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Category> update(@PathVariable(value ="id") Long id,@RequestBody CategoryDto categoryDto){
-        Category category = categoryMapper.DtoToCategory(categoryDto);
-        Category targetCategory = CategoryService.update(id,category);
+    public ResponseEntity<CategoryDto> update(@PathVariable(value ="id") Long id,@RequestBody CategoryDto categoryDto){
+        Category targetCategory = CategoryService.update(id,categoryDto);
         return ResponseEntity.ok(targetCategory);
     }
     @DeleteMapping("/{id}")

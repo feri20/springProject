@@ -19,7 +19,7 @@ public interface CategoryMapper {
 
     @Mapping(source = "lastUpdate",target = "lastUpdate",qualifiedByName = "updateToLong")
     @Mapping(source = "createDate",target = "createDate",qualifiedByName = "creatToLong")
-    CategoryDto CategoryToDto(Category category);
+    CategoryDto CategoryToDto(Optional<Category> category);
 
 
     @Mapping(target = "lastUpdate",ignore = true)

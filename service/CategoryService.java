@@ -1,8 +1,10 @@
 package com.wolf.demo.service;
 
 
+import com.wolf.demo.dto.CategoryDto;
 import com.wolf.demo.exception.ConflictException;
 import com.wolf.demo.exception.NotFoundException;
+import com.wolf.demo.mapper.CategoryMapper;
 import com.wolf.demo.model.Category;
 import com.wolf.demo.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,13 @@ public class CategoryService implements ICategory {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    CategoryMapper categoryMapper;
+
     @Override
-    public void add(Category category) {
-        Category RepetitiveCategory=categoryRepository.findFirstByName(category.getName());
+    public void add(CategoryDto categoryDto) {
+        Category category= categoryMapper.DtoToCategory(categoryDto);
+        Category RepetitiveCategory=categoryRepository.findFirstByName(categoryDto.getName());
         if (RepetitiveCategory != null){
             throw new ConflictException("already exists");
         }
@@ -32,12 +38,13 @@ public class CategoryService implements ICategory {
     }
 
     @Override
-    public Category get(Long id) {
-        Optional<Category> categories=categoryRepository.findById(id);
-        if (!categories.isPresent()){
+    public CategoryDto get(Long id) {
+        Optional<Category> category=categoryRepository.findById(id);
+        if (!category.isPresent()){
             throw new NotFoundException("not found");
         }
-        return  categories.get();
+            CategoryDto categoryDto = categoryMapper.CategoryToDto(category);
+        return  categoryDto;
 
     }
 
@@ -50,7 +57,8 @@ public class CategoryService implements ICategory {
     }
 
     @Override
-    public Category update(Long id, Category category) {
+    public Category update(Long id, CategoryDto categoryDto) {
+        Category category = categoryMapper.DtoToCategory(categoryDto);
         Optional<Category> optionalCategory=categoryRepository.findById(id);
         Category targetCategory=optionalCategory.get();
         targetCategory.setName(category.getName());
@@ -59,12 +67,19 @@ public class CategoryService implements ICategory {
     }
 
     @Override
-    public List<Category> getAll() {
-        return  (List<Category>) categoryRepository.findAll();
+    public List<CategoryDto> getAll() {
+         List<Category> categories = (List<Category>) categoryRepository.findAll();
+         List<CategoryDto> categoryDtos = new ArrayList<>();
+        categories.forEach(category -> {
+            CategoryDto categoryDto  =categoryMapper.CategoryToDto(category);
+            categoryDtos.add(categoryDto);
+        });
+        return categoryDtos;
+
     }
 
     @Override
-    public Page<Category> getAllWithPagination(int page, int pageSize) {
+    public Page<CategoryDto> getAllWithPagination(int page, int pageSize) {
         Pageable pageable= PageRequest.of(page,pageSize, Sort.by(Sort.Order.desc("id")));
         Page<Category> CategoryPage=categoryRepository.findAll(pageable);
         return CategoryPage;
