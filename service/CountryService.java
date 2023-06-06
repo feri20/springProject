@@ -12,51 +12,57 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CountryService implements ICountry {
 
+    private CountryRepository countryRepository;
+    
+    private CountryMapper countryMapper;
+   
 
-    @Autowired
-    CountryRepository countryRepository;
-
-
-    @Override
-    public void add(Country country) {
-        Country repetitive = countryRepository.findFirstByName(country.getName());
-        if(repetitive!=null){
+   @Override
+    public void add(CountryDto countryDto) {
+        Category category= countryMapper.DtoToCategory(countryDto);
+        Category RepetitiveCategory=countryRepository.findFirstByName(countryDto.getName());
+        if (RepetitiveCategory != null){
             throw new ConflictException("already exists");
         }
-        countryRepository.save(country);
+        categoryRepository.save(country);
+
     }
 
     @Override
-    public Country get(Long id) {
-        Optional<Country> countries=countryRepository.findById(id);
-        if (!countries.isPresent()){
+    public CategoryDto get(Long id) {
+        Optional<Country> country=countryRepository.findById(id);
+        if (!category.isPresent()){
             throw new NotFoundException("not found");
         }
-        return  countries.get();
+            CountryDto countryDto = countryMapper.CountryToDto(country);
+        return  countryDto;
+
     }
 
     @Override
     public void delete(Long id) {
-        Optional<Country> optionalCountry=countryRepository.findById(id);
-        Country country=optionalCountry.get();
-        countryRepository.delete(country);
+        Optional<Category> optionalCategory=countryRepository.findById(id);
+        Category category=optionalCategory.get();
+        categoryRepository.delete(category);
 
     }
 
     @Override
-    public Country update(Long id, Country country) {
+    public Category update(Long id, CountryDto countryDto) {
+        Country country = categoryMapper.DtoToCountry(countryDto);
         Optional<Country> optionalCountry=countryRepository.findById(id);
         Country targetCountry=optionalCountry.get();
-        targetCountry.setName(country.getName());
-        targetCountry.setCode(country.getCode());
-        Country updatedCountry= countryRepository.save(targetCountry);
+        targetCounrty.setName(country.getName());
+        Country updatedCountry=categoryRepository.save(targetCountry);
         return updatedCountry;
     }
 
     @Override
     public List<Country> getAll() {
+        
         return (List<Country>) countryRepository.findAll();
     }
 
