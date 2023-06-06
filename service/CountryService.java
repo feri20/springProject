@@ -22,17 +22,17 @@ public class CountryService implements ICountry {
 
    @Override
     public void add(CountryDto countryDto) {
-        Category category= countryMapper.DtoToCategory(countryDto);
-        Category RepetitiveCategory=countryRepository.findFirstByName(countryDto.getName());
+        Country category= countryMapper.DtoToCategory(countryDto);
+        Country RepetitiveCountry=countryRepository.findFirstByName(countryDto.getName());
         if (RepetitiveCategory != null){
             throw new ConflictException("already exists");
         }
-        categoryRepository.save(country);
+       countryRepository.save(country);
 
     }
 
     @Override
-    public CategoryDto get(Long id) {
+    public CountryDto get(Long id) {
         Optional<Country> country=countryRepository.findById(id);
         if (!category.isPresent()){
             throw new NotFoundException("not found");
@@ -44,9 +44,9 @@ public class CountryService implements ICountry {
 
     @Override
     public void delete(Long id) {
-        Optional<Category> optionalCategory=countryRepository.findById(id);
-        Category category=optionalCategory.get();
-        categoryRepository.delete(category);
+        Optional<Country> optionalCategory=countryRepository.findById(id);
+        Country country=optionalCountry.get();
+       countryRepository.delete(country);
 
     }
 
