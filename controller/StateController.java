@@ -27,32 +27,21 @@ public class StateController {
     @Autowired
     StateService stateService;
 
-    @Autowired
-    StateMapper stateMapper;
-
-
     @GetMapping("/{id}")
         public ResponseEntity<StateDto> getOne(@PathVariable Long id) {
-            State state = stateService.get(id);
-            StateDto stateDto =stateMapper.StateToDto(state);
+            StateDto stateDto = stateService.get(id);
             return ResponseEntity.ok(stateDto);
     }
 
     @GetMapping("/")
     public ResponseEntity<List<StateDto>> getAll() {
-        List<State> states = stateService.getAll();
-        List<StateDto> stateDtos = new ArrayList<>();
-        states.forEach(state -> {
-            StateDto stateDto = stateMapper.StateToDto(state);
-            stateDtos.add(stateDto);
-        });
+        List<StateDto> statesDto = stateService.getAll();
         return  ResponseEntity.ok(stateDtos);
     }
 
     @PostMapping("/{countryId}")
     public ResponseEntity<Void> create(@PathVariable(value = "countryId") Long countryId, @RequestBody StateDto stateDto) {
-        State state = stateMapper.DtoToState(stateDto);
-        stateService.add(countryId,state);
+        stateService.add(countryId,stateDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -65,9 +54,8 @@ public class StateController {
     })
 
     @PutMapping("/{id}")
-    public ResponseEntity<State> update(@PathVariable(value ="id") Long id,@RequestBody StateDto stateDto){
-        State state = stateMapper.DtoToState(stateDto);
-        State targetState = stateService.update(id,state);
+    public ResponseEntity<StateDto> update(@PathVariable(value ="id") Long id,@RequestBody StateDto stateDto){
+        StateDto targetState = stateService.update(id,stateDto);
         return ResponseEntity.ok(targetState);
     }
     @DeleteMapping("/{id}")
@@ -81,8 +69,7 @@ public class StateController {
     @GetMapping("/filter")
     public ResponseEntity<List<StateDto>> filter(
             @QuerydslPredicate(root = State.class) Predicate predicate) {
-        List<State> states= stateService.Filter(predicate);
-        List<StateDto> stateDtoList = stateMapper.StateToDto(states);
+        List<StateDto> states= stateService.Filter(predicate);
         return ResponseEntity.ok(stateDtoList);
     }
 }
