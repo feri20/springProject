@@ -32,10 +32,7 @@ import java.util.List;
 
      @Autowired
      IProduct productService;
-     @Autowired()
-     ProductMapper productMapper;
-
-
+    
          @ApiOperation(value = "Add or insert user")
          @ApiResponses(value = {
                  @ApiResponse(code = 201, message = "Added successfully"),
@@ -47,8 +44,7 @@ import java.util.List;
 
    @GetMapping("/{id}")
      public ResponseEntity<ProductDto> getOne(@PathVariable Long id) {
-        Product product = productService.get(id);
-        ProductDto productDto =productMapper.ProductToDto(product);
+        ProductDto productDto = productService.get(id);
         return ResponseEntity.ok(productDto);
     }
 
@@ -63,7 +59,6 @@ import java.util.List;
      public ResponseEntity<Page<ProductDto>> getAllWithPagination(@PathVariable int page,@PathVariable int size){
          Page<Product> productPage=productService.getAllWithPagination(page, size);
          Pageable pageable = PageRequest.of(page, size);
-
          List<ProductDto> productDtoList = productMapper.ProductToDto(productPage.getContent());
          Page<ProductDto> productDtoPage= PageableExecutionUtils.getPage(productDtoList,pageable,productPage::getTotalElements);
          return ResponseEntity.ok(productDtoPage);
