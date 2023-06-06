@@ -18,13 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CategoryService implements ICategory {
 
-    @Autowired
-    CategoryRepository categoryRepository;
 
-    @Autowired
-    CategoryMapper categoryMapper;
+    private CategoryRepository categoryRepository;
+    private CategoryMapper categoryMapper;
 
     @Override
     public void add(CategoryDto categoryDto) {
