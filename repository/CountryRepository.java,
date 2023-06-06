@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 
-@Repository
 public interface CountryRepository extends JpaRepository<Country,Long>, CrudRepository<Country,Long> {
 
     Country findFirstByName(String name);
