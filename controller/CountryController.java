@@ -23,19 +23,11 @@ import java.util.List;
 public class CountryController {
 
     @Autowired
-    CountryMapper countryMapper;
-
-    @Autowired
     CountryService countryService;
 
     @GetMapping("/")
     public ResponseEntity<List<CountryDto>> getAll() {
-        List<Country> countries = countryService.getAll();
-        List<CountryDto> countryDtos = new ArrayList<>();
-        countries.forEach(country -> {
-            CountryDto countryDto = countryMapper.CountryToDto(country);
-            countryDtos.add(countryDto);
-        });
+        List<CountryDto> countries = countryService.getAll();
         return  ResponseEntity.ok(countryDtos);
     }
 
