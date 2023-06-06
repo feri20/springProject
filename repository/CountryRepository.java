@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface CountryRepository extends  CrudRepository<Country,Long> {
+public interface CountryRepository extends JpaRepository<Country,Long>  CrudRepository<Country,Long> {
 
     Country findFirstByName(String name);
     Optional<Country> findById(Long id);
