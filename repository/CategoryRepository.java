@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.Optional;
 
 
-public interface CategoryRepository extends PagingAndSortingRepository<Category,Long>, QuerydslPredicateExecutor<Category> {
+public interface CategoryRepository extends JpaRepository<Category,Long>, PagingAndSortingRepository<Category,Long>, QuerydslPredicateExecutor<Category> {
     Optional<Category> findById(Long id);
     Page<Category> findAll(Pageable pageable);
     Category findFirstByName(String name);
