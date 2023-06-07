@@ -22,8 +22,7 @@ import java.util.List;
 @RequestMapping("/api/country")
 public class CountryController {
 
-    @Autowired
-    CountryService countryService;
+    private CountryService countryService;
 
     @GetMapping("/")
     public ResponseEntity<List<CountryDto>> getAll() {
