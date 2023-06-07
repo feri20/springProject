@@ -24,8 +24,8 @@ import java.util.List;
 @RequestMapping("/api/state")
 public class StateController {
 
-    @Autowired
-    StateService stateService;
+
+    private StateService stateService;
 
     @GetMapping("/{id}")
         public ResponseEntity<StateDto> getOne(@PathVariable Long id) {
