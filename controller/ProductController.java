@@ -30,8 +30,8 @@ import java.util.List;
      @RequestMapping("/api/product")
      public class ProductController {
 
-     @Autowired
-     IProduct productService;
+   
+     private IProduct productService;
     
          @ApiOperation(value = "Add or insert user")
          @ApiResponses(value = {
