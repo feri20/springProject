@@ -22,10 +22,9 @@ import java.util.List;
 @RequestMapping("/api/category")
 
 public class CategoryController {
-    @Autowired
-    ICategory CategoryService;
-    @Autowired
-    CategoryMapper categoryMapper;
+    
+    private ICategory CategoryService;
+    private CategoryMapper categoryMapper;
 
     @PostMapping("/")
     public ResponseEntity<Void> add(@RequestBody CategoryDto categoryDto) {
