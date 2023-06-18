@@ -24,7 +24,6 @@ import java.util.List;
 public class CategoryController {
     
     private ICategory CategoryService;
-    private CategoryMapper categoryMapper;
 
     @PostMapping("/")
     public ResponseEntity<Void> add(@RequestBody CategoryDto categoryDto) {
