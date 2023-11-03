@@ -32,7 +32,6 @@ public class CountryController {
 
     @PostMapping("/")
     public ResponseEntity<Void> add(@RequestBody CountryDto countryDto) {
-        Country country= countryMapper.DtoToCountry(countryDto);
         countryService.add(country);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -46,7 +45,6 @@ public class CountryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Country> update(@PathVariable(value ="id") Long id,@RequestBody CountryDto countryDto){
-        Country country = countryMapper.DtoToCountry(countryDto);
         Country targetCountry = countryService.update(id,country);
         return ResponseEntity.ok(targetCountry);
     }
